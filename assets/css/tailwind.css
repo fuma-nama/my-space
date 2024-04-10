@@ -3,5 +3,7 @@
 @tailwind utilities;
 
 body {
+  font-family: "Source Sans Pro", sans-serif;
+
   @apply bg-neutral-900 text-neutral-50;
 }
