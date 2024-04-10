@@ -2,21 +2,20 @@
   <div class="relative flex flex-col items-center px-4 py-12 min-h-dvh sm:p-28">
     <div class="text-center mb-16">
       <p
-        class="font-medium transition-opacity duration-300"
-        :class="{ 'opacity-0': !week }"
+        class="text-lg font-medium transition-opacity duration-500 mb-2"
+        :class="{ 'opacity-0': !date }"
       >
-        {{ week ?? "Week" }}
+        {{ date ?? "Week" }}
       </p>
       <h1
-        class="font-bold text-8xl mb-2 transition-opacity duration-300"
+        class="font-bold text-8xl mb-2 transition-opacity duration-500"
         :class="{ 'opacity-0': !hours && !minutes }"
       >
         {{ hours }}:{{ minutes }}
       </h1>
       <Transition mode="out-in">
-        <p class="text-sm text-neutral-200" v-if="!location">Hello There!</p>
-        <p class="text-sm text-neutral-200" v-else>
-          {{ location.city }} {{ location.state }}
+        <p class="text-sm text-neutral-50/80" v-bind:key="location ? 1 : 0">
+          {{ location ? `${location.city} ${location.state}` : "Hello There!" }}
         </p>
       </Transition>
     </div>
@@ -40,7 +39,7 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 
-const week = ref<string>();
+const date = ref<string>();
 const hours = ref<string>();
 const minutes = ref<string>();
 const location = ref<{ country: string; city: string; state: string }>();
@@ -82,8 +81,7 @@ function setTime() {
   const now = new Date(Date.now());
   hours.value = now.getHours().toString().padStart(2, "0");
   minutes.value = now.getMinutes().toString().padStart(2, "0");
-
-  week.value = [
+  const week = [
     "Monday",
     "Tuesday",
     "Wednesday",
@@ -91,7 +89,22 @@ function setTime() {
     "Friday",
     "Saturday",
     "Sunday",
-  ][now.getDay()];
+  ][now.getDay() - 1];
+  const month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ][now.getMonth()];
+
+  date.value = `${week}, ${now.getDate()} ${month}`;
 }
 
 async function setLocation() {
