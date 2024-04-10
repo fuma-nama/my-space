@@ -1,25 +1,24 @@
 <template>
   <div class="relative flex flex-col items-center px-4 py-12 min-h-dvh sm:p-28">
     <div class="text-center mb-16">
-      <p class="font-medium">
-        {{
-          [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
-          ][now.getDay() - 1]
-        }}
+      <p
+        class="font-medium transition-opacity duration-300"
+        :class="{ 'opacity-0': !week }"
+      >
+        {{ week ?? "Week" }}
       </p>
-      <h1 class="font-bold text-8xl mb-2">
-        {{ now.getHours().toString().padStart(2, "0") }}:{{
-          now.getMinutes().toString().padStart(2, "0")
-        }}
+      <h1
+        class="font-bold text-8xl mb-2 transition-opacity duration-300"
+        :class="{ 'opacity-0': !hours && !minutes }"
+      >
+        {{ hours }}:{{ minutes }}
       </h1>
-      <p class="text-sm">{{ location.city }} {{ location.state }}</p>
+      <Transition mode="out-in">
+        <p class="text-sm text-neutral-200" v-if="!location">Hello There!</p>
+        <p class="text-sm text-neutral-200" v-else>
+          {{ location.city }} {{ location.state }}
+        </p>
+      </Transition>
     </div>
     <ClientOnly>
       <Scene />
@@ -41,35 +40,14 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 
-const location = ref<{ country: string; city: string; state: string }>({
-  country: "---",
-  city: "---",
-  state: "---",
-});
-const now = ref(new Date(Date.now()));
+const week = ref<string>();
+const hours = ref<string>();
+const minutes = ref<string>();
+const location = ref<{ country: string; city: string; state: string }>();
 
 useHead({
-  title: "Hello World",
+  title: "Your Space",
 });
-
-interface LocationResponse {
-  city: {
-    name: string;
-    names: Record<string, string>;
-  };
-  continent: {
-    code: string;
-    geoname_id: number;
-    name: string;
-    names: Record<string, string>;
-  };
-  state: {
-    name: string;
-  };
-  country: {
-    name: string;
-  };
-}
 
 interface NodeItem {
   name: string;
@@ -90,25 +68,35 @@ const items: NodeItem[] = [
 let timer = 0;
 
 onMounted(() => {
+  setTime();
   setLocation();
 
-  timer = window.setInterval(() => {
-    now.value = new Date(Date.now());
-  }, 1000);
+  timer = window.setInterval(() => setTime(), 1000);
 });
 
 onUnmounted(() => {
   clearInterval(timer);
 });
 
-async function setLocation() {
-  const res = await fetch(
-    `https://api.geoapify.com/v1/ipinfo?&apiKey=${config.public.geoapifyApiKey}`,
-    { method: "GET" }
-  );
+function setTime() {
+  const now = new Date(Date.now());
+  hours.value = now.getHours().toString().padStart(2, "0");
+  minutes.value = now.getMinutes().toString().padStart(2, "0");
 
-  if (!res.ok) return;
-  const result = (await res.json()) as LocationResponse;
+  week.value = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ][now.getDay()];
+}
+
+async function setLocation() {
+  const result = await fetchGeolocation(config.public.geoapifyApiKey);
+
   location.value = {
     country: result.country.name,
     city: result.city.name,
@@ -116,3 +104,14 @@ async function setLocation() {
   };
 }
 </script>
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

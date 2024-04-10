@@ -25,6 +25,9 @@ devDependencies:
   '@types/three':
     specifier: ^0.163.0
     version: 0.163.0
+  tailwindcss:
+    specifier: ^3.4.3
+    version: 3.4.3
 
 packages:
 
