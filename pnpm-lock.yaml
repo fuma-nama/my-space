@@ -8,6 +8,9 @@ dependencies:
   nuxt:
     specifier: ^3.11.2
     version: 3.11.2(@unocss/reset@0.59.0)(floating-vue@5.2.2)(unocss@0.59.0)(vite@5.2.8)
+  three:
+    specifier: ^0.163.0
+    version: 0.163.0
   vue:
     specifier: ^3.4.21
     version: 3.4.21
@@ -19,6 +22,9 @@ devDependencies:
   '@nuxtjs/tailwindcss':
     specifier: ^6.11.4
     version: 6.11.4
+  '@types/three':
+    specifier: ^0.163.0
+    version: 0.163.0
 
 packages:
 
@@ -1635,6 +1641,10 @@ packages:
       minimatch: 9.0.4
     dev: false
 
+  /@tweenjs/tween.js@23.1.1:
+    resolution: {integrity: sha512-ZpboH7pCPPeyBWKf8c7TJswtCEQObFo3bOBYalm99NzZarATALYCo5OhbCa/n4RQyJyHfhkdx+hNrdL5ByFYDw==}
+    dev: true
+
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
 
@@ -1654,9 +1664,27 @@ packages:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
     dev: false
 
+  /@types/stats.js@0.17.3:
+    resolution: {integrity: sha512-pXNfAD3KHOdif9EQXZ9deK82HVNaXP5ZIF5RP2QG6OQFNTaY2YIetfrE9t528vEreGQvEPRDDc8muaoYeK0SxQ==}
+    dev: true
+
+  /@types/three@0.163.0:
+    resolution: {integrity: sha512-uIdDhsXRpQiBUkflBS/i1l3JX14fW6Ot9csed60nfbZNXHDTRsnV2xnTVwXcgbvTiboAR4IW+t+lTL5f1rqIqA==}
+    dependencies:
+      '@tweenjs/tween.js': 23.1.1
+      '@types/stats.js': 0.17.3
+      '@types/webxr': 0.5.15
+      fflate: 0.8.2
+      meshoptimizer: 0.18.1
+    dev: true
+
   /@types/web-bluetooth@0.0.20:
     resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
     dev: false
+
+  /@types/webxr@0.5.15:
+    resolution: {integrity: sha512-nC9116Gd4N+CqTxqo6gvCfhAMAzgRcfS8ZsciNodHq8uwW4JCVKwhagw8yN0XmC7mHrLnWqniJpoVEiR+72Drw==}
+    dev: true
 
   /@unhead/dom@1.9.4:
     resolution: {integrity: sha512-nEaHOcCL0u56g4XOV5XGwRMFZ05eEINfp8nxVrPiIGLrS9BoFrZS7/6IYSkalkNRTmw8M5xqxt6BalBr594SaA==}
@@ -3409,6 +3437,10 @@ packages:
     dependencies:
       reusify: 1.0.4
 
+  /fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
+    dev: true
+
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
     dev: false
@@ -4374,6 +4406,10 @@ packages:
   /merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
+
+  /meshoptimizer@0.18.1:
+    resolution: {integrity: sha512-ZhoIoL7TNV4s5B6+rx5mC//fw8/POGyNxS/DZyCJeiZ12ScLfVwRE/GfsxwiTkMYYD5DmK2/JXnEVXqL4rF+Sw==}
+    dev: true
 
   /methods@1.1.2:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
@@ -6379,6 +6415,10 @@ packages:
     dependencies:
       any-promise: 1.3.0
     dev: true
+
+  /three@0.163.0:
+    resolution: {integrity: sha512-HlMgCb2TF/dTLRtknBnjUTsR8FsDqBY43itYop2+Zg822I+Kd0Ua2vs8CvfBVefXkBdNDrLMoRTGCIIpfCuDew==}
+    dev: false
 
   /tiny-invariant@1.3.3:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
