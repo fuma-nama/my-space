@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@fontsource/source-sans-pro": "^5.0.8",
+    "@headlessui/vue": "^1.7.19",
+    "class-variance-authority": "^0.7.0",
     "nuxt": "^3.11.2",
+    "tailwind-merge": "^2.2.2",
     "three": "^0.163.0",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"

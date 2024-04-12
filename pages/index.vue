@@ -23,22 +23,53 @@
       <Scene />
     </ClientOnly>
     <div
-      class="text-sm p-4 rounded-xl border bg-neutral-900/50 border-neutral-400/50 shadow-xl shadow-black/50 backdrop-blur-xl w-full max-w-[400px]"
+      :class="{
+        'p-4 rounded-xl border bg-neutral-900/50 border-neutral-400/50 shadow-xl shadow-black/50 backdrop-blur-xl w-full max-w-[400px] transition-all': true,
+        'scale-50 opacity-0': !store.loaded,
+      }"
     >
-      <h2 class="mb-4 font-semibold">Notes</h2>
+      <div class="flex flex-row justify-between">
+        <h2 class="font-semibold">Notes</h2>
+        <NewNote />
+      </div>
 
-      <ul v-for="item in items" class="flex flex-col">
-        <li class="py-2 border-t border-neutral-400/50">
-          <h3 class="text-xs font-medium">{{ item.name }}</h3>
-          <span class="text-xs text-neutral-400">{{ item.description }}</span>
+      <ul class="flex flex-col border-t border-neutral-400/50 mt-2 py-2">
+        <li
+          v-for="(item, i) in store.notes"
+          :class="{
+            'py-2 rounded-lg -mx-2 p-2 cursor-pointer select-none': true,
+            'bg-neutral-200/20': i === selected,
+          }"
+          @click="selected = selected === i ? undefined : i"
+        >
+          <h3 class="flex flex-row justify-between">
+            <span class="text-sm font-medium">{{ item.title }}</span>
+            <span class="text-xs text-neutral-300">{{
+              new Date(item.date).toLocaleDateString()
+            }}</span>
+          </h3>
+          <span class="text-xs text-neutral-300">{{ item.description }}</span>
         </li>
       </ul>
+      <p v-if="store.notes.length === 0" class="text-xs text-neutral-300">
+        You don't have any notes yet.
+      </p>
+      <button
+        v-if="selected !== undefined && selected < store.notes.length"
+        :class="cn(buttonVariants({ className: 'mt-2', variant: 'secondary' }))"
+        @click="if (selected !== undefined) removeItem(selected);"
+      >
+        Remove
+      </button>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import { buttonVariants } from "~/components/theme";
+
 const config = useRuntimeConfig();
 
+const selected = ref<number>();
 const date = ref<string>();
 const hours = ref<string>();
 const minutes = ref<string>();
@@ -48,27 +79,12 @@ useHead({
   title: "Your Space",
 });
 
-interface NodeItem {
-  name: string;
-  description: string;
-}
-
-const items: NodeItem[] = [
-  {
-    name: "Learn Vue.js",
-    description: "Read Vue.js Documentation in 2024",
-  },
-  {
-    name: "Get some new ideas",
-    description: "Coffee time",
-  },
-];
-
 let timer = 0;
 
 onMounted(() => {
   setTime();
   setLocation();
+  store.init();
 
   timer = window.setInterval(() => setTime(), 1000);
 });
@@ -105,6 +121,12 @@ function setTime() {
   ][now.getMonth()];
 
   date.value = `${week}, ${now.getDate()} ${month}`;
+}
+
+function removeItem(index: number) {
+  const newItems = store.notes.filter((_, j) => index !== j);
+
+  store.setNotes(newItems);
 }
 
 async function setLocation() {
