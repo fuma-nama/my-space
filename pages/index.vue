@@ -15,7 +15,9 @@
       </h1>
       <Transition mode="out-in">
         <p class="text-sm text-neutral-50/80" v-bind:key="location ? 1 : 0">
-          {{ location ? `${location.city} ${location.state}` : "Hello There!" }}
+          {{
+            location ? `${location.country} ${location.city}` : "Hello There!"
+          }}
         </p>
       </Transition>
     </div>
